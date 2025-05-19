@@ -85,7 +85,7 @@ Response:
 ```
 
 ## 2. Mendapatkan Model Terbaik
-GET /best-model
+- GET /best-model
 Response:
 ```
 { "best_model": "random_forest", "score": 0.3071 }
