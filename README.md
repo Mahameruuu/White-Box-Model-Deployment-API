@@ -1,85 +1,118 @@
-# White Box Model Deployment API
+Laporan Proyek Machine Learning - White Box Model Deployment API
 
-API deployment untuk model Machine Learning regresi (Random Forest, Ridge, Decision Tree, Linear) menggunakan FastAPI dan Docker.
+### 1. Pendahuluan
+Proyek ini bertujuan untuk membangun dan mendistribusikan model regresi Machine Learning (Random Forest, Ridge, Decision Tree, Linear Regression) dalam bentuk API menggunakan FastAPI dan Docker. Model ini digunakan untuk memprediksi variabel target berbasis fitur-fitur numerik.
 
-## Fitur
+### 2. Business Understanding
+Model ini dirancang untuk digunakan dalam konteks operasional industri, khususnya dalam memprediksi nilai-nilai sensor atau parameter penting (seperti suhu, aliran batubara, atau daya aktif) agar mendukung pengambilan keputusan yang lebih presisi dalam pengelolaan proses atau aset.
 
-- Health check endpoint untuk memastikan API berjalan
-- Mendapatkan model terbaik beserta skor evaluasi
-- Melihat performa semua model yang sudah dilatih
-- Melakukan prediksi menggunakan model tertentu dengan input fitur
+Tujuan Bisnis:
 
-## Cara Menjalankan
+Memprediksi parameter penting secara akurat
 
-### Prasyarat
+Memungkinkan integrasi prediksi ML ke dalam sistem lain melalui API
 
-- Python 3.8+
-- Docker (untuk menjalankan container)
+Menyediakan visibilitas atas performa semua model yang telah dilatih
 
-### Build Docker Image
+### 3. Data Understanding
+Data yang digunakan berasal dari sensor/telemetri sistem, dengan beberapa fitur utama seperti:
 
+TOTAL_COAL_FLOW
+
+GEN_ACTIVE_POWER
+
+ECON_OUT_WTR_TEMP_R
+
+Target prediksi adalah nilai sensor atau variabel numerik yang relevan (misalnya MAIN_STM_TEMP).
+Dataset telah dibagi menjadi data latih dan data uji.
+
+### 4. Data Preparation
+Data dibersihkan dari nilai-nilai kosong
+
+Semua fitur bersifat numerik sehingga tidak memerlukan encoding tambahan
+
+Data distandarisasi untuk model yang sensitif terhadap skala, seperti Ridge dan Linear Regression
+
+Dilakukan split data (train/test) dengan proporsi 80:20
+
+### 5. Modeling
+Model-model yang digunakan:
+
+Random Forest
+
+Ridge Regression
+
+Decision Tree
+
+Linear Regression
+
+Setiap model dievaluasi menggunakan metrik:
+
+R² (R-squared)
+
+RMSE (Root Mean Square Error)
+
+Model terbaik dipilih berdasarkan nilai R² tertinggi.
+
+### 6. Evaluation
+Berikut contoh hasil evaluasi model:
+
+| Model             | R² Score | RMSE   | Best Parameters                  |
+| ----------------- | -------- | ------ | -------------------------------- |
+| Random Forest     | 0.307    | 112.45 | `n_estimators=100, max_depth=10` |
+| Ridge Regression  | 0.294    | 114.22 | `alpha=1.0`                      |
+| Decision Tree     | 0.220    | 121.35 | `max_depth=8`                    |
+| Linear Regression | 0.201    | 123.80 | -                                |
+
+Model terbaik: Random Forest
+
+### 7. Deployment
+Model dan pipeline telah di-package dan disediakan melalui sebuah REST API berbasis FastAPI. API ini kemudian dikemas menggunakan Docker agar bisa dijalankan secara konsisten di berbagai lingkungan.
+
+Prasyaratan 
+a. Python 3.8+
+b. Docker
+
+Build Docker Image
 ```
 docker build -t white-box-model-api .
 ```
 
-### Jalankan Docker Container
-
-Jalankan container dan mapping port 8000 di container ke port 8100 di host (bisa ganti port sesuai kebutuhan):
-
+Jalankan Docker Container
 ```
 docker run -p 8100:8000 white-box-model-api
 ```
 
-Pastikan port 8100 belum digunakan oleh aplikasi lain. Gunakan perintah berikut untuk cek:
-
+Cek Port Terpakai
 ```
 sudo lsof -i :8100
 ```
 
-Jika port sudah digunakan, ganti ke port lain yang kosong.
+## 1. Endpoint API
+Root / Health Check
+- GET /
+Response:
 
-Endpoint API
-1. Root / Health Check
+```
+{ "message": "ML Model Deployment API is running." }
+```
 
-Method: GET
-
-URL: http://localhost:8100/
-
+## 2. Mendapatkan Model Terbaik
+GET /best-model
 Response:
 ```
-{
-  "message": "ML Model Deployment API is running."
-}
+{ "best_model": "random_forest", "score": 0.3071 }
 ```
 
-2. Mendapatkan Model Terbaik
-Method: GET
+## 3. Melihat Performa Semua Model
+- GET /model-performance
+- Response: JSON yang berisi skor evaluasi seluruh model
 
-URL: http://localhost:8100/best-model
+## 4. Prediksi dengan Model Tertentu
+- POST /predict
+- Header: Content-Type: application/json
+- Contoh Request Body:
 
-Response:
-```
-{
-  "best_model": "random_forest",
-  "score": 0.3071684786743205
-}
-```
-
-3. Melihat Performa Semua Model
-Method: GET
-
-URL: http://localhost:8100/model-performance
-
-Response: JSON berisi skor, RMSE, dan parameter terbaik dari semua model.
-
-4. Prediksi dengan Model Tertentu
-Method: POST
-
-URL: http://localhost:8100/predict
-
-Header: Content-Type: application/json
-
-Body contoh:
 ```
 {
   "model_name": "ridge",
@@ -89,10 +122,19 @@ Body contoh:
 }
 ```
 
-Response contoh:
+- Contoh Response:
+
 ```
 {
   "model": "ridge",
-  "prediction": [1013.5823982767538]
+  "prediction": [1013.58]
 }
 ```
+
+### 8. Kesimpulan
+Model Random Forest memberikan performa terbaik dalam memprediksi target berdasarkan data yang diberikan. API yang dibangun memungkinkan pengguna untuk:
+- Mengecek status model
+- Melihat performa dan pemilihan model terbaik
+- Melakukan prediksi berbasis input fitur
+
+Dengan adanya Docker, sistem ini dapat dideploy secara portable dan dapat diintegrasikan ke berbagai platform sistem informasi industri.
