@@ -18,8 +18,9 @@ API deployment untuk model Machine Learning regresi (Random Forest, Ridge, Decis
 
 ### Build Docker Image
 
-```bash
+```
 docker build -t white-box-model-api .
+```
 
 **### Jalankan Docker Container**
 
