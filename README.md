@@ -22,7 +22,7 @@ API deployment untuk model Machine Learning regresi (Random Forest, Ridge, Decis
 docker build -t white-box-model-api .
 ```
 
-**### Jalankan Docker Container**
+### Jalankan Docker Container
 
 Jalankan container dan mapping port 8000 di container ke port 8100 di host (bisa ganti port sesuai kebutuhan):
 
