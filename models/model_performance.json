@@ -1,0 +1,33 @@
+{
+  "random_forest": {
+    "score": 0.3071684786743205,
+    "rmse": 2.0466955505581836,
+    "best_params": {
+      "max_depth": 10,
+      "min_samples_leaf": 1,
+      "min_samples_split": 2,
+      "n_estimators": 100
+    }
+  },
+  "ridge": {
+    "score": 0.16323516028114726,
+    "rmse": 2.249267654066678,
+    "best_params": {
+      "alpha": 10
+    }
+  },
+  "decision_tree": {
+    "score": 0.2749631811345271,
+    "rmse": 2.093724123970656,
+    "best_params": {
+      "max_depth": 10,
+      "min_samples_leaf": 2,
+      "min_samples_split": 5
+    }
+  },
+  "linear": {
+    "score": 0.16322996106740895,
+    "rmse": 2.2492746419350538,
+    "best_params": {}
+  }
+}
