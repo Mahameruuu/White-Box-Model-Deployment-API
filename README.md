@@ -8,49 +8,36 @@ Model ini dirancang untuk digunakan dalam konteks operasional industri, khususny
 
 Tujuan Bisnis:
 
-Memprediksi parameter penting secara akurat
-
-Memungkinkan integrasi prediksi ML ke dalam sistem lain melalui API
-
-Menyediakan visibilitas atas performa semua model yang telah dilatih
+- Memprediksi parameter penting secara akurat
+- Memungkinkan integrasi prediksi ML ke dalam sistem lain melalui API
+- Menyediakan visibilitas atas performa semua model yang telah dilatih
 
 ### 3. Data Understanding
 Data yang digunakan berasal dari sensor/telemetri sistem, dengan beberapa fitur utama seperti:
 
-TOTAL_COAL_FLOW
-
-GEN_ACTIVE_POWER
-
-ECON_OUT_WTR_TEMP_R
+- TOTAL_COAL_FLOW
+- GEN_ACTIVE_POWER
+- ECON_OUT_WTR_TEMP_R
 
 Target prediksi adalah nilai sensor atau variabel numerik yang relevan (misalnya MAIN_STM_TEMP).
 Dataset telah dibagi menjadi data latih dan data uji.
 
 ### 4. Data Preparation
-Data dibersihkan dari nilai-nilai kosong
-
-Semua fitur bersifat numerik sehingga tidak memerlukan encoding tambahan
-
-Data distandarisasi untuk model yang sensitif terhadap skala, seperti Ridge dan Linear Regression
-
-Dilakukan split data (train/test) dengan proporsi 80:20
+- Data dibersihkan dari nilai-nilai kosong
+- Semua fitur bersifat numerik sehingga tidak memerlukan encoding tambahan
+- Data distandarisasi untuk model yang sensitif terhadap skala, seperti Ridge dan Linear Regression
+- Dilakukan split data (train/test) dengan proporsi 80:20
 
 ### 5. Modeling
 Model-model yang digunakan:
-
-Random Forest
-
-Ridge Regression
-
-Decision Tree
-
-Linear Regression
+- Random Forest
+- Ridge Regression
+- Decision Tree
+- Linear Regression
 
 Setiap model dievaluasi menggunakan metrik:
-
-R² (R-squared)
-
-RMSE (Root Mean Square Error)
+- R² (R-squared)
+- RMSE (Root Mean Square Error)
 
 Model terbaik dipilih berdasarkan nilai R² tertinggi.
 
